@@ -6,3 +6,5 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
 `
+
+export const Input = styled.input``

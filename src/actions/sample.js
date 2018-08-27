@@ -1,14 +1,8 @@
-import { SAMPLE_UPDATE_TEXT, SAMPLE_CLEAR_TEXT } from '../constants'
+import { SAMPLE_UPDATE_USER } from '../constants'
 
-export const updateText = text => dispatch => {
+export const updateUser = text => dispatch => {
   dispatch({
-    type: SAMPLE_UPDATE_TEXT,
+    type: SAMPLE_UPDATE_USER,
     text,
-  })
-}
-
-export const clearText = () => dispatch => {
-  dispatch({
-    type: SAMPLE_CLEAR_TEXT,
   })
 }

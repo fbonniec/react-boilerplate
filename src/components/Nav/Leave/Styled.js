@@ -6,3 +6,13 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
 `
+
+export const Table = styled.table`
+  width: 100%;
+`
+
+export const TrLeave = styled.tr`
+  &:hover {
+    background-color: #f7f7f7;
+  }
+`

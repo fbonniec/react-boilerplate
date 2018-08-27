@@ -6,10 +6,7 @@ import { Container } from './Styled'
 
 import Section from './Section'
 
-const sections = [
-  { key: 'welcome', title: 'Welcome' },
-  { key: 'app', title: 'App' },
-]
+const sections = [{ key: 'users', title: 'User' }]
 
 const Menu = props => {
   const {
@@ -24,7 +21,7 @@ const Menu = props => {
           to={key}
           title={title}
           isActive={!!pathname.match(key)}
-          onClick={() => push(key)}
+          onClick={() => push(`/${key}`)}
         />
       ))}
     </Container>

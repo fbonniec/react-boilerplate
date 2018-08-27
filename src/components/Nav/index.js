@@ -6,8 +6,8 @@ import { Container } from './Styled'
 
 import configureStore from '../../utils/store'
 
-import Welcome from './Welcome'
-import App from './App'
+import User from './User'
+import Leave from './Leave'
 
 const store = configureStore()
 
@@ -15,9 +15,9 @@ const Main = () => (
   <Provider store={store}>
     <Container>
       <Switch>
-        <Route path="/welcome" component={Welcome} />
-        <Route path="/app" component={App} />
-        <Redirect to="/welcome" />
+        <Route path="/users/:id" component={Leave} />
+        <Route path="/users" component={User} />
+        <Redirect to="/users" />
       </Switch>
     </Container>
   </Provider>

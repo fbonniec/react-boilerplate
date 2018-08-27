@@ -7,4 +7,12 @@ export const Container = styled.div`
   justify-content: center;
 `
 
-export const Input = styled.input``
+export const Table = styled.table`
+  width: 100%;
+`
+
+export const TrUser = styled.tr`
+  &:hover {
+    background-color: #f7f7f7;
+  }
+`

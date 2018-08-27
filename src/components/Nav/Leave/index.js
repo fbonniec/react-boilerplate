@@ -30,6 +30,16 @@ class Leave extends React.Component {
     this.toggleModal()
   }
 
+  setStatusForLeave = (status, leaveId) => {
+    const {
+      actions: { updateLeaveStatusForUser },
+      match: {
+        params: { id },
+      },
+    } = this.props
+    updateLeaveStatusForUser(status, id, leaveId)
+  }
+
   render() {
     const {
       state: { users },
@@ -75,7 +85,22 @@ class Leave extends React.Component {
                   <td>{moment(leave.begin).format('LL')}</td>
                   <td>{moment(leave.end).format('LL')}</td>
                   <td>{leave.comment}</td>
-                  <td>{leave.status}</td>
+                  {leave.status === 'waiting' ? (
+                    <td>
+                      <Button
+                        onClick={() => this.setStatusForLeave('accepted', key)}
+                      >
+                        accepted
+                      </Button>
+                      <Button
+                        onClick={() => this.setStatusForLeave('refused', key)}
+                      >
+                        refused
+                      </Button>
+                    </td>
+                  ) : (
+                    <td>{leave.status}</td>
+                  )}
                 </TrLeave>
               ))}
             </tbody>
@@ -99,6 +124,7 @@ Leave.propTypes = {
   }).isRequired,
   actions: PropTypes.shape({
     addLeaveForUser: PropTypes.func.isRequired,
+    updateLeaveStatusForUser: PropTypes.func.isRequired,
   }).isRequired,
 }
 

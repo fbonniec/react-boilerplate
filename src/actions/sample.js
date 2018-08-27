@@ -1,5 +1,8 @@
-import { SAMPLE_UPDATE_USER } from '../constants'
-import { SAMPLE_ADD_LEAVE } from '../constants'
+import {
+  SAMPLE_UPDATE_USER,
+  SAMPLE_ADD_LEAVE,
+  SAMPLE_UPDATE_LEAVE_STATUS,
+} from '../constants'
 
 export const updateUser = text => dispatch => {
   dispatch({
@@ -17,5 +20,18 @@ export const addLeaveForUser = (data, userId) => dispatch => {
     type: SAMPLE_ADD_LEAVE,
     leave,
     userId,
+  })
+}
+
+export const updateLeaveStatusForUser = (
+  status,
+  userId,
+  leaveId,
+) => dispatch => {
+  dispatch({
+    type: SAMPLE_UPDATE_LEAVE_STATUS,
+    status,
+    userId,
+    leaveId,
   })
 }

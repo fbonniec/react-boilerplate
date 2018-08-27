@@ -11,9 +11,9 @@ const User = props => {
     history: { push },
   } = props
 
-  const data = Object.keys(users).map((acc, v) => {
+  const data = Object.keys(users).reduce((acc, v) => {
     const user = users[v]
-    return { key: v, ...user }
+    return [...acc, { key: v, ...user }]
   }, [])
 
   return (

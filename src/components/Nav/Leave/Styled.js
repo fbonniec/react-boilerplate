@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 `
@@ -16,3 +17,5 @@ export const TrLeave = styled.tr`
     background-color: #f7f7f7;
   }
 `
+
+export const Button = styled.button``

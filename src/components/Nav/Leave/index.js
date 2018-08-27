@@ -2,58 +2,90 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import { Container, Table, TrLeave } from './Styled'
+import { Container, Table, TrLeave, Button } from './Styled'
 
 import mapping from '../../../utils/connect/mapping'
 
-const Leave = props => {
-  const {
-    state: { users },
-    match: {
-      params: { id },
-    },
-  } = props
+import Modal from './Modal'
+import New from './New'
 
-  const user = users[id]
+class Leave extends React.Component {
+  state = {
+    displayModal: false,
+  }
 
-  if (!user)
+  toggleModal = () => {
+    const { displayModal } = this.state
+    this.setState({ displayModal: !displayModal })
+  }
+
+  onSave = leave => {
+    const {
+      actions: { addLeaveForUser },
+      match: {
+        params: { id },
+      },
+    } = this.props
+    addLeaveForUser(leave, id)
+    this.toggleModal()
+  }
+
+  render() {
+    const {
+      state: { users },
+      match: {
+        params: { id },
+      },
+    } = this.props
+
+    const user = users[id]
+
+    if (!user)
+      return (
+        <Container>
+          <div>User does not exists</div>
+        </Container>
+      )
+
+    const data = Object.keys(user.leave).reduce((acc, v) => {
+      const leave = user.leave[v]
+      return [...acc, { key: v, ...leave }]
+    }, [])
+
+    const { displayModal } = this.state
     return (
       <Container>
-        <div>User does not exists</div>
+        <Button onClick={this.toggleModal}>Add new leave</Button>
+        {displayModal && (
+          <Modal>
+            <New onSave={this.onSave} />
+          </Modal>
+        )}
+        {user ? (
+          <Table>
+            <tbody>
+              <tr>
+                <th>date de début</th>
+                <th>date de fin</th>
+                <th>commentaire</th>
+                <th>status</th>
+              </tr>
+              {data.map(({ key, ...leave }) => (
+                <TrLeave key={key}>
+                  <td>{moment(leave.begin).format('LL')}</td>
+                  <td>{moment(leave.end).format('LL')}</td>
+                  <td>{leave.comment}</td>
+                  <td>{leave.status}</td>
+                </TrLeave>
+              ))}
+            </tbody>
+          </Table>
+        ) : (
+          <div>User does not exists</div>
+        )}
       </Container>
     )
-
-  const data = Object.keys(user.leave).map((acc, v) => {
-    const leave = user.leave[v]
-    return { key: v, ...leave }
-  }, [])
-
-  return (
-    <Container>
-      {user ? (
-        <Table>
-          <tbody>
-            <tr>
-              <th>date de début</th>
-              <th>date de fin</th>
-              <th>commentaire</th>
-              <th>status</th>
-            </tr>
-            {data.map(({ key, ...leave }) => (
-              <TrLeave key={key}>
-                <td>{moment(leave.begin).format('LL')}</td>
-                <td>{moment(leave.end).format('LL')}</td>
-                <td>{leave.comment}</td>
-                <td>{leave.status}</td>
-              </TrLeave>
-            ))}
-          </tbody>
-        </Table>
-      ) : (
-        <div>User does not exists</div>
-      )}
-    </Container>
-  )
+  }
 }
 
 Leave.propTypes = {
@@ -64,6 +96,9 @@ Leave.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
+  }).isRequired,
+  actions: PropTypes.shape({
+    addLeaveForUser: PropTypes.func.isRequired,
   }).isRequired,
 }
 

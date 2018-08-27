@@ -1,14 +1,17 @@
 import moment from 'moment'
+import { v4 } from 'uuid'
 
-import { SAMPLE_UPDATE_USER } from '../constants'
+import { SAMPLE_UPDATE_USER, SAMPLE_ADD_LEAVE } from '../constants'
 
 const defaultState = {
   '0': {
     name: 'florian',
     leave: {
       '0': {
-        begin: moment(),
-        end: moment().add(1, 'days'),
+        begin: moment().format(),
+        end: moment()
+          .add(1, 'days')
+          .format(),
         comment: 'Mon commentaire',
         status: 'updated',
       },
@@ -18,8 +21,10 @@ const defaultState = {
     name: 'mickael',
     leave: {
       '0': {
-        begin: moment(),
-        end: moment().add(1, 'days'),
+        begin: moment().format(),
+        end: moment()
+          .add(1, 'days')
+          .format(),
         comment: 'Mon commentaire',
         status: 'updated',
       },
@@ -29,6 +34,20 @@ const defaultState = {
 
 const sample = (state = defaultState, action) => {
   switch (action.type) {
+    case SAMPLE_ADD_LEAVE: {
+      const { userId, leave } = action
+
+      return {
+        ...state,
+        [userId]: {
+          ...state[userId],
+          leave: {
+            ...state[userId].leave,
+            [v4()]: leave,
+          },
+        },
+      }
+    }
     case SAMPLE_UPDATE_USER:
       return state
     case '@@INIT':

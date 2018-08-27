@@ -27,6 +27,13 @@ class New extends React.Component {
   }
 
   setDate = key => value => {
+    const { begin, end } = this.state
+    if (key === 'begin' && value.isAfter(end)) {
+      return
+    }
+    if (key === 'end' && moment(begin).isAfter(value)) {
+      return
+    }
     this.setState({ [key]: value.format() })
   }
 
